@@ -22,10 +22,21 @@ const literalB = {
 
 // the solution
 
-class EvenOdd { };
+class EvenOdd {
+  numbers = [];
+  constructor(numbers) {
+    this.numbers = numbers;
+  }
+  get evens() {
+    return this.numbers.filter(num => num % 2 === 0);
+  }
+  get odds() {
+    return this.numbers.filter(num => num % 2 !== 0);
+  }
+};
 
-const instanceA = _;
-const instanceB = _;
+const instanceA = new EvenOdd([0, -2, 2, - 1, 1]);
+const instanceB = new EvenOdd([6, -4, 3, 67, -21]);
 
 // the tests
 

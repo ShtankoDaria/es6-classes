@@ -8,9 +8,19 @@ const literal1 = {
   },
   addString: function (newStr) {
     // ... code ...
+    if (Number(newStr)) {
+      if (newStr % 2 === 0) {
+        this.state.evens.push(newStr);
+      } else if (newStr % 2 === 1) {
+        this.state.odds.push(newStr);
+      }
+    } else {
+      this.state.nanys.push(newStr);
+    }
   },
   all: function (selection) {
     // ... code ...
+    return this.state[selection];
   }
 };
 
@@ -22,14 +32,44 @@ const literal2 = {
   },
   addString: function (newStr) {
     // ... code ...
+    if (Number(newStr)) {
+      if (newStr % 2 === 0) {
+        this.state.evens.push(newStr);
+      } else if (newStr % 2 === 1) {
+        this.state.odds.push(newStr);
+      }
+    } else {
+      this.state.nanys.push(newStr);
+    }
   },
   all: function (selection) {
     // ... code ...
+    return this.state[selection];
   }
 };
 
 // the solution
-
+class Stringanizer {
+  constructor(state = {}) {
+    this.state = state;
+  }
+  addString(newStr) {
+// ... code ...
+if (Number(newStr)) {
+  if (newStr % 2 === 0) {
+    this.state.evens.push(newStr);
+  } else if (newStr % 2 === 1) {
+    this.state.odds.push(newStr);
+  }
+} else {
+  this.state.nanys.push(newStr);
+}
+}
+all(selection) {
+  // ... code ...
+  return this.state[selection];
+}
+};
 
 // these lines are correct! don't change them
 const instanceA = new Stringanizer(['3', '', 'e', '2']);

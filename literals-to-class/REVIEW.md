@@ -1,6 +1,6 @@
 # es6-classes/
 
-> 4/1/2020, 11:40:27 AM 
+> 4/2/2020, 2:59:21 PM 
 
 ## literals-to-class/ - error
 
@@ -8,30 +8,33 @@
 
 ### files
 
-* [challenge-1.js](#challenge-1js---error) - error
-* [challenge-2.js](#challenge-2js---error) - error
-* [challenge-3.js](#challenge-3js---error) - error
+* [challenge-1.js](#challenge-1js---pass) - pass
+* [challenge-2.js](#challenge-2js---pass) - pass
+* [challenge-3.js](#challenge-3js---pass) - pass
 * [challenge-4.js](#challenge-4js---error) - error
 * [example.js](#examplejs---pass) - pass
 
 ---
 
-## challenge-1.js - error
+## challenge-1.js - pass
 
 * [review source](challenge-1.js)
 
 ```txt
-ReferenceError: _ is not defined
-    at Object.<anonymous> ( [...] /literals-to-class/challenge-1.js:27:19)
-    at Module._compile (internal/modules/cjs/loader.js:777:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:788:10)
-    at Module.load (internal/modules/cjs/loader.js:643:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:556:12)
-    at Module.require (internal/modules/cjs/loader.js:683:19)
-    at require (internal/modules/cjs/helpers.js:16:16)
-    at evaluateFile ( [...] /review.js:101:5)
-    at  [...] /review.js:139:28
-    at Array.map (<anonymous>)
++ PASS: Test 1.A - instanceof
++ PASS: Test 1.B 
++ PASS: Test 2.A - own properties
++ PASS: Test 2.B
++ PASS: Test 3.A - not-own properties
++ PASS: Test 3.B
++ PASS: Test 4.A - evens
++ PASS: Test 4.B
++ PASS: Test 5.A - odds
++ PASS: Test 5.B
++ PASS: Test 6.A - evens
++ PASS: Test 6.B
++ PASS: Test 7.A - odds
++ PASS: Test 7.B
 ```
 
 ```js
@@ -59,10 +62,21 @@ const literalB = {
 
 // the solution
 
-class EvenOdd { };
+class EvenOdd {
+  numbers = [];
+  constructor(numbers) {
+    this.numbers = numbers;
+  }
+  get evens() {
+    return this.numbers.filter(num => num % 2 === 0);
+  }
+  get odds() {
+    return this.numbers.filter(num => num % 2 !== 0);
+  }
+};
 
-const instanceA = _;
-const instanceB = _;
+const instanceA = new EvenOdd([0, -2, 2, - 1, 1]);
+const instanceB = new EvenOdd([6, -4, 3, 67, -21]);
 
 // the tests
 
@@ -110,28 +124,27 @@ console.assert(test7b, 'Test 7.B');
 
 ---
 
-## challenge-2.js - error
+## challenge-2.js - pass
 
 * [review source](challenge-2.js)
 
 ```txt
 + PASS: Test 1.A - instanceof
 + PASS: Test 1.B 
-- FAIL: Test 2.A - own properties
-- FAIL: Test 2.B
++ PASS: Test 2.A - own properties
++ PASS: Test 2.B
 + PASS: Test 3.A - not-own properties
 + PASS: Test 3.B
-TypeError: Cannot read property 'max' of undefined
-    at Object.<anonymous> ( [...] /literals-to-class/challenge-2.js:54:32)
-    at Module._compile (internal/modules/cjs/loader.js:777:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:788:10)
-    at Module.load (internal/modules/cjs/loader.js:643:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:556:12)
-    at Module.require (internal/modules/cjs/loader.js:683:19)
-    at require (internal/modules/cjs/helpers.js:16:16)
-    at evaluateFile ( [...] /review.js:101:5)
-    at  [...] /review.js:139:28
-    at Array.map (<anonymous>)
++ PASS: Test 4.A - initial values
++ PASS: Test 4.B
++ PASS: Test 5.A - get spread
++ PASS: Test 5.B
++ PASS: Test 6.A - addNumber
++ PASS: Test 6.B
++ PASS: Test 7.A - get spread
++ PASS: Test 7.B
++ PASS: Test 8.A - addNumber
++ PASS: Test 8.B
 ```
 
 ```js
@@ -146,7 +159,12 @@ const literalA = {
     return this.state.max - this.state.min;
   },
   addNumber(newNum) {
-    // ... code ...
+    if (newNum > this.state.max) {
+      this.state.max = newNum;
+    }
+    else if (newNum < this.state.min) {
+      this.state.min = newNum;
+    }
   }
 };
 
@@ -159,13 +177,49 @@ const literalB = {
     return this.state.max - this.state.min;
   },
   addNumber(newNum) {
-    // ... code ...
+    if (newNum > this.state.max) {
+      this.state.max = newNum;
+    }
+    else if (newNum < this.state.min) {
+      this.state.min = newNum;
+    }
   }
 };
 
 // the solution
 
-class MaxMin { };
+class MaxMin {  state = {
+  max: -Infinity,
+  min: Infinity
+};
+
+get spread() {
+
+  return this.state.max - this.state.min;
+
+};
+addNumber(newNum) {
+  debugger;
+  if (newNum > this.state.max) {
+    if (this.state.max == -Infinity) {
+      this.state.max = newNum;
+      this.state.min = newNum;
+    }
+    else
+      this.state.max = newNum;
+  }
+  else if (newNum < this.state.min) {
+    if (this.state.min === Infinity) {
+      this.state.min = newNum;
+      this.state.max = newNum;
+    }
+    else
+      this.state.min = newNum
+
+  }
+};
+
+};
 
 // these two lines are correct! don't change them
 const instanceA = new MaxMin();
@@ -223,30 +277,27 @@ console.assert(test8b, 'Test 8.B');
 
 ---
 
-## challenge-3.js - error
+## challenge-3.js - pass
 
 * [review source](challenge-3.js)
 
 ```txt
 + PASS: Test 1.A - instanceof
 + PASS: Test 1.B 
-- FAIL: Test 2.A - own properties
-- FAIL: Test 2.B
++ PASS: Test 2.A - own properties
++ PASS: Test 2.B
 + PASS: Test 3.A - not-own properties
 + PASS: Test 3.B
-- FAIL: Test 4.A - initial values
-- FAIL: Test 4.B
-TypeError: instanceA.write is not a function
-    at Object.<anonymous> ( [...] /literals-to-class/challenge-3.js:70:11)
-    at Module._compile (internal/modules/cjs/loader.js:777:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:788:10)
-    at Module.load (internal/modules/cjs/loader.js:643:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:556:12)
-    at Module.require (internal/modules/cjs/loader.js:683:19)
-    at require (internal/modules/cjs/helpers.js:16:16)
-    at evaluateFile ( [...] /review.js:101:5)
-    at  [...] /review.js:139:28
-    at Array.map (<anonymous>)
++ PASS: Test 4.A - initial values
++ PASS: Test 4.B
++ PASS: Test 5.A - write
++ PASS: Test 5.B
++ PASS: Test 6.A - read
++ PASS: Test 6.B
++ PASS: Test 7.A - remove
++ PASS: Test 7.B
++ PASS: Test 8.A - final values
++ PASS: Test 8.B
 ```
 
 ```js
@@ -258,20 +309,25 @@ const literalA = {
     sa: 67
   },
   write: function (key, value) {
-    // ... code ...
+    this.entries[key] = value;
   },
   read: function (key) {
     if (this.entries.hasOwnProperty(key)) {
       // ... code ...
+      return this.entries[key];
     } else {
       // ... code ...
+      return null;
     }
   },
   remove: function (key) {
     if (this.entries.hasOwnProperty(key)) {
       // ... code ...
+      delete this.entries[key];
+      return true;
     } else {
       // ... code ...
+      return false;
     }
   }
 };
@@ -284,15 +340,66 @@ const literalB = {
     groucho: 'marx',
     zeppo: 'marx',
   },
-  write: function (key, value) { },
-  read: function (key) { },
-  remove: function (key) { }
+  write: function (key, value) { this.entries[key] = value; },
+  read: function (key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      return this.entries[key];
+    } else {
+      // ... code ...
+      return null;
+    }
+  },
+  remove: function (key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      delete this.entries[key];
+      return true;
+    } else {
+      // ... code ...
+      return false;
+    }
+  }
 };
 
 // the solution
 
-class EntriesManager { };
+class EntriesManager { 
+  entries = {};
+  constructor(obj) {
 
+    if (obj != null) {
+      Object.keys(obj).forEach((key) => {
+        this.entries[key] = obj[key]
+      })
+    }
+   
+};
+write(key, value) { this.entries[key] = value; };
+
+  read(key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      return this.entries[key];
+    } else {
+      // ... code ...
+      throw new Error(`no key: ${key}`);
+
+    };
+
+  };
+  remove(key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      delete this.entries[key];
+      return true;
+    } else {
+      // ... code ...
+      return false;
+    }
+  }
+  
+};
 // these two lines are correct!  don't change them
 const instanceA = new EntriesManager({ a: 1, b: 2 });
 const instanceB = new EntriesManager();
@@ -358,16 +465,24 @@ console.assert(test8b, 'Test 8.B');
 * [review source](challenge-4.js)
 
 ```txt
-ReferenceError: Stringanizer is not defined
-    at Object.<anonymous> ( [...] /literals-to-class/challenge-4.js:35:19)
-    at Module._compile (internal/modules/cjs/loader.js:777:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:788:10)
-    at Module.load (internal/modules/cjs/loader.js:643:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:556:12)
-    at Module.require (internal/modules/cjs/loader.js:683:19)
-    at require (internal/modules/cjs/helpers.js:16:16)
-    at evaluateFile ( [...] /review.js:101:5)
-    at  [...] /review.js:139:28
++ PASS: Test 1.A - instanceof
++ PASS: Test 1.B 
++ PASS: Test 2.A - own properties
++ PASS: Test 2.B
++ PASS: Test 3.A - not-own properties
++ PASS: Test 3.B
+- FAIL: Test 4.A - initial values
+- FAIL: Test 4.B
+TypeError: Cannot read property 'toString' of undefined
+    at Object.<anonymous> ( [...] \literals-to-class\challenge-4.js:100:38)
+    at Module._compile (internal/modules/cjs/loader.js:1157:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1177:10)
+    at Module.load (internal/modules/cjs/loader.js:1001:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:900:14)
+    at Module.require (internal/modules/cjs/loader.js:1043:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at evaluateFile ( [...] \review.js:101:5)
+    at  [...] \review.js:139:28
     at Array.map (<anonymous>)
 ```
 
@@ -382,9 +497,19 @@ const literal1 = {
   },
   addString: function (newStr) {
     // ... code ...
+    if (Number(newStr)) {
+      if (newStr % 2 === 0) {
+        this.state.evens.push(newStr);
+      } else if (newStr % 2 === 1) {
+        this.state.odds.push(newStr);
+      }
+    } else {
+      this.state.nanys.push(newStr);
+    }
   },
   all: function (selection) {
     // ... code ...
+    return this.state[selection];
   }
 };
 
@@ -396,14 +521,44 @@ const literal2 = {
   },
   addString: function (newStr) {
     // ... code ...
+    if (Number(newStr)) {
+      if (newStr % 2 === 0) {
+        this.state.evens.push(newStr);
+      } else if (newStr % 2 === 1) {
+        this.state.odds.push(newStr);
+      }
+    } else {
+      this.state.nanys.push(newStr);
+    }
   },
   all: function (selection) {
     // ... code ...
+    return this.state[selection];
   }
 };
 
 // the solution
-
+class Stringanizer {
+  constructor(state = {}) {
+    this.state = state;
+  }
+  addString(newStr) {
+// ... code ...
+if (Number(newStr)) {
+  if (newStr % 2 === 0) {
+    this.state.evens.push(newStr);
+  } else if (newStr % 2 === 1) {
+    this.state.odds.push(newStr);
+  }
+} else {
+  this.state.nanys.push(newStr);
+}
+}
+all(selection) {
+  // ... code ...
+  return this.state[selection];
+}
+};
 
 // these lines are correct! don't change them
 const instanceA = new Stringanizer(['3', '', 'e', '2']);

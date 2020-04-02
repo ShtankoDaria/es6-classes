@@ -6,20 +6,25 @@ const literalA = {
     sa: 67
   },
   write: function (key, value) {
-    // ... code ...
+    this.entries[key] = value;
   },
   read: function (key) {
     if (this.entries.hasOwnProperty(key)) {
       // ... code ...
+      return this.entries[key];
     } else {
       // ... code ...
+      return null;
     }
   },
   remove: function (key) {
     if (this.entries.hasOwnProperty(key)) {
       // ... code ...
+      delete this.entries[key];
+      return true;
     } else {
       // ... code ...
+      return false;
     }
   }
 };
@@ -32,15 +37,66 @@ const literalB = {
     groucho: 'marx',
     zeppo: 'marx',
   },
-  write: function (key, value) { },
-  read: function (key) { },
-  remove: function (key) { }
+  write: function (key, value) { this.entries[key] = value; },
+  read: function (key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      return this.entries[key];
+    } else {
+      // ... code ...
+      return null;
+    }
+  },
+  remove: function (key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      delete this.entries[key];
+      return true;
+    } else {
+      // ... code ...
+      return false;
+    }
+  }
 };
 
 // the solution
 
-class EntriesManager { };
+class EntriesManager { 
+  entries = {};
+  constructor(obj) {
 
+    if (obj != null) {
+      Object.keys(obj).forEach((key) => {
+        this.entries[key] = obj[key]
+      })
+    }
+   
+};
+write(key, value) { this.entries[key] = value; };
+
+  read(key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      return this.entries[key];
+    } else {
+      // ... code ...
+      throw new Error(`no key: ${key}`);
+
+    };
+
+  };
+  remove(key) {
+    if (this.entries.hasOwnProperty(key)) {
+      // ... code ...
+      delete this.entries[key];
+      return true;
+    } else {
+      // ... code ...
+      return false;
+    }
+  }
+  
+};
 // these two lines are correct!  don't change them
 const instanceA = new EntriesManager({ a: 1, b: 2 });
 const instanceB = new EntriesManager();
